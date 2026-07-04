@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Small reusable component classes matching the Vercel-inspired design tokens */
+.btn-primary {
+  @apply bg-ink text-white text-sm font-medium px-4 py-2 rounded-md hover:opacity-90 transition;
+}
+
+.btn-secondary {
+  @apply bg-white text-ink text-sm font-medium px-4 py-2 rounded-md border border-hairline-strong hover:bg-canvas-soft transition;
+}
+
+.card {
+  @apply bg-white border border-hairline rounded-lg p-6;
+}
+
+.badge-passed {
+  @apply text-xs font-medium px-2 py-1 rounded-pill bg-cyan/10 text-link;
+}
+
+.badge-failed {
+  @apply text-xs font-medium px-2 py-1 rounded-pill bg-error-soft text-error;
+}
+
+.badge-pending {
+  @apply text-xs font-medium px-2 py-1 rounded-pill bg-warning-soft text-warning;
+}

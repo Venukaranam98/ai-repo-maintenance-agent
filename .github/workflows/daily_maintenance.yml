@@ -1,0 +1,33 @@
+name: Daily Repository Maintenance Agent
+
+on:
+  schedule:
+    # Runs every day at 03:00 UTC. Adjust as you like - cron syntax is
+    # "minute hour day month weekday".
+    - cron: "0 3 * * *"
+  workflow_dispatch: {}  # lets you also trigger it manually from the Actions tab
+
+jobs:
+  run-agent:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout this repo (the one hosting the agent code)
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        working-directory: backend
+        run: pip install -r requirements.txt
+
+      - name: Run the maintenance agent
+        working-directory: backend
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          GROQ_MODEL: llama-3.3-70b-versatile
+          GITHUB_TOKEN: ${{ secrets.AGENT_GITHUB_TOKEN }}
+          TARGET_REPOS: ${{ secrets.TARGET_REPOS }}
+        run: python main.py --cron
