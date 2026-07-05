@@ -1,17 +1,11 @@
-"""
-models.py
-
-SQLAlchemy models for the audit trail and multi-user data. Using SQLite by
-default (zero setup) but DATABASE_URL can point to Postgres in production
-without changing any code here - that's the point of using an ORM.
-"""
-
 import datetime
 
 from sqlalchemy import create_engine, Column, Integer, String, Boolean, DateTime, ForeignKey, Text
 from sqlalchemy.orm import declarative_base, sessionmaker, relationship
 
 from agent.config import settings
+import os
+os.makedirs("logs", exist_ok=True)
 
 Base = declarative_base()
 
