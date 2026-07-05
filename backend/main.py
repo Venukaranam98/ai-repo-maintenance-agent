@@ -13,6 +13,7 @@ The CLI path re-uses the exact same orchestrator function the dashboard's
 "Scan now" button calls - there is only one pipeline implementation.
 """
 
+import os
 import sys
 
 from fastapi import FastAPI
@@ -40,6 +41,8 @@ app.include_router(api_router)
 
 @app.on_event("startup")
 def on_startup():
+    print("CWD:", os.getcwd())
+    print("Logs dir exists:", os.path.exists("logs"))
     init_db()
 
 
@@ -52,7 +55,10 @@ if __name__ == "__main__":
     if "--cron" in sys.argv:
         # Cron / GitHub Actions entry point: no web server, just run the pipeline
         # once for every repo configured in TARGET_REPOS and exit.
+        print("CWD:", os.getcwd())
+        print("Logs dir exists before makedirs:", os.path.exists("logs"))
         init_db()
+        print("Logs dir exists after init_db:", os.path.exists("logs"))
         results = run_agent_for_all_configured_repos()
         for r in results:
             print(r)
