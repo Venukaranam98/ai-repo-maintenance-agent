@@ -1,18 +1,3 @@
-"""
-main.py
-
-Two ways to run this file:
-
-1. As a web server (dashboard API):
-       uvicorn main:app --reload
-
-2. As a one-off CLI run (what the GitHub Actions cron job calls):
-       python main.py --cron
-
-The CLI path re-uses the exact same orchestrator function the dashboard's
-"Scan now" button calls - there is only one pipeline implementation.
-"""
-
 import os
 import sys
 
@@ -64,4 +49,4 @@ if __name__ == "__main__":
             print(r)
     else:
         import uvicorn
-        uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
+        uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=False)
