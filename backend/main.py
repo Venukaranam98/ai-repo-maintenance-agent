@@ -38,8 +38,6 @@ def health_check():
 
 if __name__ == "__main__":
     if "--cron" in sys.argv:
-        # Cron / GitHub Actions entry point: no web server, just run the pipeline
-        # once for every repo configured in TARGET_REPOS and exit.
         print("CWD:", os.getcwd())
         print("Logs dir exists before makedirs:", os.path.exists("logs"))
         init_db()
