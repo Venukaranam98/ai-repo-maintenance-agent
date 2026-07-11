@@ -1,15 +1,3 @@
-"""
-orchestrator.py
-
-The single place that wires every module together into one end-to-end run:
-
-    clone -> analyze -> decide -> validate -> commit/push -> open PR -> log
-
-Both the CLI entry point (main.py, used by the GitHub Actions cron job) and
-the dashboard's "Scan now" button (api/routes.py) call this same function,
-so there is exactly one code path for "what the agent actually does."
-"""
-
 import json
 import time
 import traceback
