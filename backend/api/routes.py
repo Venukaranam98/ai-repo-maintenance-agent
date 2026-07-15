@@ -1,10 +1,3 @@
-"""
-routes.py
-
-REST endpoints the React dashboard calls. All routes (except auth) require
-a valid JWT via the Authorization: Bearer <token> header.
-"""
-
 import json
 
 from fastapi import APIRouter, Depends, HTTPException, BackgroundTasks
@@ -74,6 +67,7 @@ def run_history(user: User = Depends(get_current_user), db: Session = Depends(ge
             "status": run.status,
             "commit_message": run.commit_message,
             "pr_url": run.pr_url,
+            "error_message": run.error_message,
             "gap_summary": json.loads(run.gap_summary) if run.gap_summary else None,
         }
         for run in runs
