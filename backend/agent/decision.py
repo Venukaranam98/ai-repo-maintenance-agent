@@ -1,14 +1,3 @@
-"""
-decision.py
-
-Given a HealthReport, ask the LLM (Groq, via LangChain) to pick ONE
-high-value, low-risk gap and generate the actual fix content.
-
-We force the model to return structured JSON (parsed into a Pydantic
-model) instead of free text, so the rest of the pipeline can rely on
-exact field names rather than parsing prose.
-"""
-
 import json
 import os
 
@@ -23,12 +12,12 @@ from agent.config import settings
 class ProposedChange(BaseModel):
     """Structured output we require from the LLM."""
     file_path: str = Field(description="Path of the file to create or modify, relative to repo root")
-    new_content: str = Field(description="Full new content to write to that file")
+    new_content: str = Field(description="The new content to add. For docs/section additions, this should be ONLY the new section/snippet being added (not the whole file). For brand-new files, this is the complete file content.")
     commit_message: str = Field(description="Conventional-commit style message, e.g. 'docs: add usage section to README'")
     pr_title: str = Field(description="Short PR title")
     pr_description: str = Field(description="Markdown PR description explaining what was analyzed and why this change was chosen")
     change_type: str = Field(description="One of: docs, tests, style, chore")
-
+    apply_mode: str = Field(description="One of: 'append' (add new_content to the end of the existing file) or 'overwrite' (replace the whole file - only for new files or full rewrites)")
 
 SYSTEM_PROMPT = """You are an AI repository maintenance agent. You will be given a
 health report describing gaps found in a real GitHub repository. Your job is to
@@ -44,6 +33,10 @@ section with generic, standard steps for the language you can detect).
 Respond with ONLY valid JSON matching this schema, no markdown fences, no
 extra commentary:
 {format_instructions}
+Keep your proposed change SMALL and TARGETED. If the gap is a missing README
+section, output ONLY that new section's content (a few lines to a paragraph) -
+never rewrite the entire file. If unsure how content will be merged, assume it
+will be appended, not used to replace the whole file.
 """
 
 
@@ -52,6 +45,7 @@ def _build_chain():
         api_key=settings.groq_api_key,
         model=settings.groq_model,
         temperature=0.2,
+        max_tokens=4096,
     )
     structured_llm = llm.with_structured_output(ProposedChange)
     prompt = ChatPromptTemplate.from_messages(

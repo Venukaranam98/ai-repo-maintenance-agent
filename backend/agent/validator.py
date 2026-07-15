@@ -1,15 +1,3 @@
-"""
-validator.py
-
-Takes a ProposedChange, actually writes it to disk inside the cloned repo,
-then runs safety checks (linter + existing test suite) before allowing the
-pipeline to proceed to commit/push.
-
-This is the module that turns "AI writes random files" into "AI writes
-files that are proven not to break anything obvious" - the credibility
-layer of the whole project.
-"""
-
 import os
 import subprocess
 from dataclasses import dataclass
@@ -44,13 +32,17 @@ def _run(cmd: list[str], cwd: str) -> tuple[int, str]:
 
 
 def apply_change(repo_path: str, change: ProposedChange) -> str:
-    """Write the proposed file content to disk. Returns the absolute path written."""
+    """Write the proposed content to disk, respecting apply_mode."""
     target = os.path.join(repo_path, change.file_path)
     os.makedirs(os.path.dirname(target) or repo_path, exist_ok=True)
-    with open(target, "w", encoding="utf-8") as fh:
-        fh.write(change.new_content)
-    return target
 
+    if getattr(change, "apply_mode", "overwrite") == "append" and os.path.exists(target):
+        with open(target, "a", encoding="utf-8") as fh:
+            fh.write("\n\n" + change.new_content)
+    else:
+        with open(target, "w", encoding="utf-8") as fh:
+            fh.write(change.new_content)
+    return target
 
 def validate_change(repo_path: str, change: ProposedChange) -> ValidationResult:
     """
