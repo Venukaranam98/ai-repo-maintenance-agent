@@ -84,3 +84,10 @@ watch the Dashboard for run history and PR links.
 
 See `PROGRESS.md` for the build checklist and `DESIGN.md` for the frontend
 design tokens.
+
+
+## Usage
+To use the AI Repository Maintenance Agent, follow these steps:
+1. Install the required dependencies.
+2. Configure the agent by setting the environment variables.
+3. Run the agent using the `--cron` flag.
