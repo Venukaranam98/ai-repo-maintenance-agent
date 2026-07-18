@@ -1,19 +1,3 @@
-"""
-auth.py
-
-GitHub-only OAuth login, scoped to public_repo access, plus our own JWT
-issuance for dashboard session management.
-
-Flow:
-1. Frontend redirects the browser to /auth/github/login
-2. We redirect to GitHub's authorize URL
-3. GitHub redirects back to /auth/github/callback?code=...
-4. We exchange the code for a GitHub access token (server-to-server call)
-5. We fetch the user's GitHub profile, upsert a User row, store their token
-6. We issue our OWN short-lived JWT and send it back to the frontend
-   (the GitHub token itself never goes to the browser)
-"""
-
 import datetime
 
 import requests

@@ -1,11 +1,3 @@
-"""
-github_pr.py
-
-Thin wrapper around the GitHub REST API for the one thing we need beyond
-raw git push: opening a Pull Request, and (optionally) auto-merging
-doc-only changes once they've passed validation.
-"""
-
 import requests
 
 GITHUB_API = "https://api.github.com"

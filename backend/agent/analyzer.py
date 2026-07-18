@@ -1,15 +1,3 @@
-"""
-analyzer.py
-
-Scans a local clone of a repository and produces a "health report":
-a structured, prioritized list of real gaps the agent could fix.
-
-We deliberately keep every check *cheap and deterministic* (no LLM calls
-here). The LLM is only used later, in decision.py, to pick ONE gap and
-write the actual fix. Keeping analysis rule-based makes the health report
-reproducible and cheap to run on every cron tick.
-"""
-
 import ast
 import os
 from dataclasses import dataclass, field

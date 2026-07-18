@@ -1,11 +1,3 @@
-"""
-Central configuration for the AI Repository Maintenance Agent.
-
-Everything here is read from environment variables so that secrets never
-live in source code. See ../.env.example for the full list of variables
-you need to set before running the project.
-"""
-
 import os
 from dataclasses import dataclass, field
 from typing import List

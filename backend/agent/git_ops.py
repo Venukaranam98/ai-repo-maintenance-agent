@@ -1,12 +1,3 @@
-"""
-git_ops.py
-
-All local Git operations, using GitPython instead of shelling out to `git`
-directly by hand. GitPython wraps the git CLI in a Pythonic object model
-(repo.index, repo.remotes, etc.) - see README "Concepts explained" section
-for a walkthrough of how this works under the hood.
-"""
-
 import os
 import shutil
 import time
