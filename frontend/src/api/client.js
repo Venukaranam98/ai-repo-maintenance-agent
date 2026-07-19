@@ -2,8 +2,6 @@ import axios from "axios";
 
 const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:8000";
 
-// Token is kept in memory only (not localStorage) to reduce XSS token-theft risk.
-// It's lost on a hard page refresh by design; re-login via GitHub restores it fast.
 let authToken = null;
 
 export function setAuthToken(token) {
