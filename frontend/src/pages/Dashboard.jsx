@@ -22,7 +22,6 @@ export default function Dashboard() {
     setTriggering(repoId);
     await api.triggerScan(repoId);
     setTriggering(null);
-    // give the background task a moment, then refresh history
     setTimeout(refresh, 3000);
   }
 
