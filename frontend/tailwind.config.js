@@ -1,5 +1,3 @@
-/** Tailwind config - color/type/spacing tokens pulled from the Vercel-inspired
- * DESIGN.md (see project root DESIGN.md for the full source of truth). */
 export default {
   content: ["./index.html", "./src/**/*.{js,jsx}"],
   theme: {
