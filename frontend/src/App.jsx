@@ -7,8 +7,7 @@ import RepoDetail from "./pages/RepoDetail.jsx";
 import { getAuthToken } from "./api/client.js";
 
 function RequireAuth({ children }) {
-  // Simple guard: no token in memory means the user hasn't logged in this
-  // session (or refreshed the page and lost it) - send them back to login.
+
   if (!getAuthToken()) {
     return <Navigate to="/" replace />;
   }
